@@ -1,0 +1,16 @@
+{
+  "branches": ["main"],
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    "@semantic-release/changelog",
+    ["@semantic-release/exec", {
+      "prepareCmd": "printf '%s\\n' '${nextRelease.version}' > VERSION"
+    }],
+    ["@semantic-release/git", {
+      "assets": ["VERSION", "CHANGELOG.md"],
+      "message": "chore(release): set version to ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+    }],
+    "@semantic-release/github"
+  ]
+}

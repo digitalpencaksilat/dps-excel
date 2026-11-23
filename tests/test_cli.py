@@ -31,6 +31,12 @@ class PickerTest(unittest.TestCase):
 
 
 class CleanerTest(unittest.TestCase):
+    def test_version_matches_version_file(self):
+        version = LAUNCHER.with_name("VERSION").read_text(encoding="ascii").strip()
+        result = self.cli("--version")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(result.stdout.strip(), f"dps-excel {version}")
+
     def test_extra_column_without_automatic_header(self):
         book = Workbook()
         sheet = book.active

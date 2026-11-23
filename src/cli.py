@@ -162,7 +162,8 @@ def run(source, output=None, interactive=False):
 
 def main():
     parser = argparse.ArgumentParser(prog="dps-excel", description="Pembersih NIK/KK di Excel.")
-    parser.add_argument("--version", action="version", version="%(prog)s 0.1.0")
+    version = (Path(__file__).resolve().parents[1] / "VERSION").read_text(encoding="ascii").strip()
+    parser.add_argument("--version", action="version", version=f"%(prog)s {version}")
     commands = parser.add_subparsers(dest="command")
     clean = commands.add_parser("clean", help="Bersihkan file tanpa wizard.")
     clean.add_argument("input", type=Path)
