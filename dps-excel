@@ -1,0 +1,16 @@
+#!/bin/sh
+set -eu
+launcher=$0
+while [ -L "$launcher" ]; do
+    target=$(readlink "$launcher")
+    case "$target" in
+        /*) launcher=$target ;;
+        *) launcher=$(dirname -- "$launcher")/$target ;;
+    esac
+done
+root=$(CDPATH= cd -- "$(dirname -- "$launcher")" && pwd)
+if [ ! -x "$root/.venv/bin/python" ]; then
+    printf '%s\n' 'Jalankan setup .venv terlebih dahulu (lihat README.md).' >&2
+    exit 1
+fi
+exec "$root/.venv/bin/python" "$root/src/cli.py" "$@"
